@@ -6,7 +6,7 @@ import Registration from '../screens/AuthScreens/Register';
 import MyDrawer from './DrawerNav';
 import Login from '../screens/AuthScreens/Login';
 import MyTabs from './BottomTabNav';
-import Home from '../screens/Home';
+import {colors} from '../constants/Colors.js';
 
 //import BottomTabNavigator from './BottomTabNavigator';
 
@@ -23,7 +23,7 @@ function AuthNavigator() {
           // headerBackTitle: 'Back',
           headerBackTitleVisible: false,
           headerStyle: {
-            backgroundColor: 'blue',
+            backgroundColor: colors.themeColor,
           }})} />
       <Stack.Screen name={"ForgotPassword"} component={ForgotPassword} 
         options={({route}) => ({
@@ -31,9 +31,9 @@ function AuthNavigator() {
           // headerBackTitle: 'Back',
           headerBackTitleVisible: false,
           headerStyle: {
-            backgroundColor: 'blue',
+            backgroundColor: colors.themeColor,
           },
-          title: route.params.userId,
+          //title: route.params.userId,
         })}/>
       {/* <Stack.Screen name={ROUTES.HOME}  component={BottomTabNavigator} options={{headerShown:true,title:"Login"}}/> */}
       <Stack.Screen

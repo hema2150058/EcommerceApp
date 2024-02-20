@@ -6,6 +6,7 @@ import { MaterialCommunityIcons, Ionicons, Feather, FontAwesome } from 'react-na
 
 import Home from '../screens/Home';
 import MyProfile from '../screens/MyProfile';
+import { colors } from '../constants/Colors';
 
 //const Tab = createMaterialBottomTabNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,8 +28,11 @@ function MyTabs() {
           component={Home}
           options={{
             tabBarLabel: 'Home',
+            tabBarInactiveTintColor:'grey',
+            tabBarActiveTintColor:"#82174d",
+            headerShown: false,
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="home" size={26} color={color} />
+              <MaterialCommunityIcons name="home" size={26} color={color}/>
             ),
           }}
         />
@@ -37,8 +41,11 @@ function MyTabs() {
           component={MyProfile}
           options={{
             tabBarLabel: 'Wishlist',
+            tabBarInactiveTintColor:'grey',
+            tabBarActiveTintColor:"#82174d",
+            headerShown: false,
             tabBarIcon: ({ color }) => (
-              <FontAwesome name="dollar" size={26} color={color} />
+              <Feather name="heart" size={26} color={color} />
             ),
           }}
         />
@@ -47,8 +54,12 @@ function MyTabs() {
           component={MyProfile}
           options={{
             tabBarLabel: 'Cart',
+            tabBarInactiveTintColor:'grey',
+            tabBarActiveTintColor:"#82174d",
+            headerShown: false,
             tabBarIcon: ({ color }) => (
-              <Feather name="info" size={26} color={color} />
+              // <Feather name="info" size={26} color={color} />
+              <FontAwesome name="shopping-cart" size={26} color={color} />
             ),
           }}
         />
@@ -57,6 +68,9 @@ function MyTabs() {
           component={MyProfile}
           options={{
             tabBarLabel: 'Account',
+            tabBarInactiveTintColor:'grey',
+            tabBarActiveTintColor:"#82174d",
+            headerShown: false,
             tabBarIcon: ({ color }) => (
               <Ionicons name="settings-outline" size={26} color={color} />
             ),
