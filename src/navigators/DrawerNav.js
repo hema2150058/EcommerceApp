@@ -62,6 +62,7 @@ function MyDrawer() {
         name="HomeDrawer"
         options={{
           drawerLabel: 'Home',
+          
           title: 'Ira Fashions',
           headerTitleStyle: {
             color: '#fff',
