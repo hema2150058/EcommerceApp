@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Button, KeyboardAvoidingView, ScrollView, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Button, ScrollView, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { colors } from '../../constants/Colors';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomTextInput from '../../components/CustomTextInput';
 // import Entypo from 'react-native-vector-icons';
 
 const Registration = () => {
@@ -30,15 +29,14 @@ const Registration = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
 
-   const handleUserNameBlur = () => {
-      //validate username
-      if (!userName.trim()) {
-        setUserNameError('Username is required');
-        isValid = false;
-      } else {
-        setUserNameError('');
-      }
-    };
+  const handleUserNameBlur = () => {
+    if (!userName.trim()) {
+      setUserNameError('Username is required');
+      isValid = false;
+    } else {
+      setUserNameError('');
+    }
+  };
 
   const handleEmailBlur = () => {
     if (!email.trim()) {
@@ -55,7 +53,7 @@ const Registration = () => {
 
   const handlePasswordBlur = () => {
     if (!password.trim()) {
-      setPasswordError('Password is required blur');
+      setPasswordError('Password is required');
       isValid = false;
     } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/.test(password)) {
       setPasswordError('Password must contain at least 1 lowercase, 1 uppercase, 1 special character, and 1 digit blur');
@@ -68,17 +66,17 @@ const Registration = () => {
 
   const handleConfirmPasswordBlur = () => {
     if (!confirmPassword.trim()) {
-      setConfirmPasswordError('Password is required blur');
+      setConfirmPasswordError('Confirm Password is required');
       isValid = false;
     } else if (password !== confirmPassword) {
-      setConfirmPasswordError('Passwords do not match blur');
+      setConfirmPasswordError('Passwords do not match');
       isValid = false;
     }
     else {
       setConfirmPasswordError('');
     }
   };
-  // Validate email
+  
   const handleEmailChange = (text) => {
     setEmail(text);
     if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(text)) {
@@ -115,46 +113,21 @@ const Registration = () => {
 
     let isValid = true;
 
-    // const handleUserNameBlur = () => {
-      //validate username
-      if (!userName.trim()) {
-        setUserNameError('Username is required inside handle registration');
-        isValid = false;
-      } else {
-        setUserNameError('');
-      }
-    // };
+    //validate username
+    handleUserNameBlur();
 
     //validate email
-    if (!email.trim()) {
-      setEmailError('Email is required inside handle registration');
-      isValid = false;
-    } else if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
-      setEmailError('Invalid email address inside handle registration');
-      isValid = false;
-    }
-    else {
-      setEmailError('');
-    }
+    handleEmailBlur();
 
     //validate password
-    if (!password.trim()) {
-      setPasswordError('Password is required inside handle registration');
-      isValid = false;
-    } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/.test(password)) {
-      setPasswordError('Password must contain at least 1 lowercase, 1 uppercase, 1 special character, and 1 digit inside');
-      isValid = false;
-    }
-    else {
-      setPasswordError('');
-    }
+    handlePasswordBlur();
 
     //validate confirm password
     if (!confirmPassword.trim()) {
-      setConfirmPasswordError('Password is required inside');
+      setConfirmPasswordError('Confirm Password is required ');
       isValid = false;
     } else if (password !== confirmPassword) {
-      setConfirmPasswordError('Passwords do not match inside');
+      setConfirmPasswordError('Confirm Passwords do not match ');
       isValid = false;
     }
     else {
@@ -171,16 +144,16 @@ const Registration = () => {
     }
 
     //validate Mobile no.
-    if(mobileNumber.trim() && !/^\d{10}$/.test(mobileNumber)){
+    if (mobileNumber.trim() && !/^\d{10}$/.test(mobileNumber)) {
       setMobileNumberError('Mobile number must be 10 digits');
       isValid = false;
     } else {
       setMobileNumberError('');
     }
 
-     if(isValid) {
-    // Perform registration logic if all fields are valid
-    //if (!userNameError && !emailError && !passwordError && !confirmPasswordError && !dobError) {
+    if (isValid) {
+      // Perform registration logic if all fields are valid
+      //if (!userNameError && !emailError && !passwordError && !confirmPasswordError && !dobError) {
       const user = {
         userName,
         email,
@@ -191,29 +164,29 @@ const Registration = () => {
       try {
         // Retrieve existing users from AsyncStorage
         const existingUsers = JSON.parse(await AsyncStorage.getItem('users')) || [];
- 
+
         // Add the new user to the list
         existingUsers.push(user);
- 
+
         // Save the updated users list back to AsyncStorage
         await AsyncStorage.setItem('users', JSON.stringify(existingUsers));
- 
+
         // Inform the user about successful registration
         alert('Registration Successful', 'Your details have been stored successfully.');
-        console.log('Updated users: '+JSON.stringify(existingUsers,null,2));
+        console.log('Updated users: ' + JSON.stringify(existingUsers, null, 2));
         // Optional: Clear the form fields
-        // setUserName('');
-        // setEmail('');
-        // setPassword('');
-        // setConfirmPassword('');
-        // setDob(new Date());
-        // setMobileNumber('');
-        // setAddress('');
+        setUserName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        setDob(new Date());
+        setMobileNumber('');
+        setAddress('');
         // ... (clear other fields as needed)
       } catch (error) {
         console.error('Error storing registration details:', error);
       }
-    
+
       // console.log(isValid)
       // console.log('Registration Successful');
       // alert("Registration success!!!")
@@ -224,9 +197,6 @@ const Registration = () => {
     setShowDatePicker(true);
   };
 
-  const hideDatePickerModal = () => {
-    setShowDatePicker(false);
-  };
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || dob;
@@ -240,7 +210,6 @@ const Registration = () => {
 
   return (
     <TouchableWithoutFeedback onPress={onSubmitEditing} >
-
       <ScrollView style={styles.container}>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>User Name</Text>
@@ -269,29 +238,17 @@ const Registration = () => {
             value={password}
             onChangeText={handlePasswordChange}
             onBlur={handlePasswordBlur}
-          //secureTextEntry
+            secureTextEntry
           />
           {passwordError ? <Text style={styles.error}>{passwordError}</Text> : null}
         </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Confirm Password</Text>
-          <View style={{ flexDirection: 'row' }}>
-            <TextInput
-              style={[styles.input, { width: '80%', borderColor: confirmPasswordError ? 'red' : 'grey' }]}
-              value={confirmPassword}
-              onChangeText={handleConfirmPasswordChange}
-              onBlur={handleConfirmPasswordBlur}
-            //secureTextEntry
-            />
-            {!confirmPasswordError && passwordsMatch && (<Icon name='check-circle' size={35} color='green' style={{ marginTop: 8, marginLeft: 3 }} />)}
-            {confirmPasswordError && !passwordsMatch && (<FontAwesome name="times-circle" size={35} color="red" style={{ marginTop: 8, marginLeft: 3 }} />)}
-
-            {/* {confirmPasswordError && ( <Entypo name="circle-with-cross" size={24} color="red" style={{marginTop: 8, marginLeft:3}} />)} */}
-          </View>
-          {confirmPasswordError ? <Text style={styles.error}>{confirmPasswordError}</Text> : null}
-          {/* {confimeHasError() && <Text style={styles.error}>{confirmPasswordError}</Text>} */}
-
-        </View>
+        <CustomTextInput
+          label='Confirm Password'
+          value={confirmPassword}
+          onChangeText={handleConfirmPasswordChange}
+          onBlur={handleConfirmPasswordBlur}
+          error={confirmPasswordError}
+        />
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Date of Birth</Text>
           <TouchableOpacity onPress={showDatePickerModal}>
@@ -310,23 +267,12 @@ const Registration = () => {
             />
           )}
         </View>
-        {/* <View style={styles.inputContainer}>
-      <Text style={styles.label}>Date of Birth</Text>
-      <View style={styles.input}>
-        <DateTimePicker
-          value={dob}
-          onChange={(event, selectedDate) => setDob(selectedDate || dob)}
-          maximumDate={new Date()}
-          mode="date"
-        />
-        </View>
-        {dobError ? <Text style={styles.error}>{dobError}</Text> : null}
-      </View> */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Mobile Number</Text>
           <TextInput
             style={styles.input}
             value={mobileNumber}
+            maxLength={10}
             onChangeText={setMobileNumber}
             keyboardType="numeric"
           />
@@ -340,11 +286,10 @@ const Registration = () => {
             onChangeText={setAddress}
           />
         </View>
-        <View style={[styles.inputContainer], { marginTop: 10, paddingBottom: 50, paddingHorizontal: 90 }}>
+        <View style={[styles.inputContainer, { marginTop: 10, paddingBottom: 50, paddingHorizontal: 90 }]}>
           <Button title="Register" color={colors.themeColor} onPress={handleRegistration} />
         </View>
       </ScrollView>
-
     </TouchableWithoutFeedback>
   );
 };
@@ -373,7 +318,8 @@ const styles = StyleSheet.create({
     padding: 8,
     marginTop: 5,
     marginHorizontal: 10,
-    marginBottom: 10
+    marginBottom: 10,
+    borderColor: 'grey'
   },
   error: {
     color: 'red',

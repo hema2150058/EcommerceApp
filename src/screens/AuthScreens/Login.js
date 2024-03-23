@@ -171,7 +171,7 @@ const Login = () => {
               </TouchableOpacity>
             </View>
             <View style={{ margin: 10, flexDirection: 'row' }}>
-              <Text style={styles.footerText, { textAlign: 'center', marginTop: 5, marginLeft: 50 }}> Don't have an account? </Text>
+              <Text style={[styles.footerText, { textAlign: 'center', marginTop: 5, marginLeft: 50 }]}> Don't have an account? </Text>
               <Pressable
                 onPress={() => navigation.navigate('Register')} >
                 <Text style={{ color: '#82174d', fontSize: 20, textAlign: 'left', }}> Sign Up</Text>
